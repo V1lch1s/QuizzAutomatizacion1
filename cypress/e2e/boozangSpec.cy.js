@@ -132,4 +132,20 @@ describe('template spec', () => {
       cy.get('button.new_home').click()
     })
   })
+
+  it('Concatenate Strings', () => {
+    cy.visit('https://thelab.boozang.com/')
+    cy.get('.veggie_burger').click()
+    cy.get(':nth-child(7) > .sub_list > li > span > .link').click()
+
+    cy.get('.strings_section > :nth-child(2)').click()
+    cy.get('.string1').invoke('text').then((texto1) => { // Extraemos el texo plano del elemento con .invoke
+      cy.get('.string2').invoke('text').then((texto2) => { // " del elemento 2
+        const stringCompuesto = texto1.trim() + texto2.trim() // Concatenamos
+        cy.get('input').type(stringCompuesto) // Ponemos en el campo de texto
+        cy.get('.text-center > .form_btn').click()
+      })
+    })
+    cy.get('[data-testid="message"]').should('be.visible') // Validar
+  })
 })
